@@ -1,23 +1,46 @@
-# PowerShell IP Scanner
+# IP Scanner PowerShell Script
 
-This PowerShell script scans for live hosts between a start and end IP address range. It can output the results to a file and has an option to display the syntax and options.
+This is a PowerShell script that scans for live hosts between two specified IP addresses.
 
-## Syntax
+## Prerequisites
 
-```powershell
-.\script.ps1 -StartIP <string> -EndIP <string> [-Outfile <string>] [-Help]
+- PowerShell v3.0 or higher
+- Windows OS or compatible environment
 
-Parameters
--StartIP <string>: The starting IP address to scan (e.g. 192.168.0) excluding 4th octet. This parameter is mandatory.
--EndIP <string>: The ending IP address to scan (e.g. 192.168.0.255). This parameter is mandatory.
--Outfile <string>: Optional. The file to save the output to.
--Help: Display the help message.
+## Usage
 
-Examples
+To use this script, follow these steps:
 
-# Scan for live hosts between 192.168.0.1 and 192.168.0.255 and output results to a file
-.\script.ps1 -StartIP 192.168.0 -EndIP 192.168.0.255 -Outfile C:\results.txt
+1. Open PowerShell console or terminal.
+2. Change the directory to the location where the script is saved.
+3. Run the script using the following command:
 
-# Display the help message
-.\script.ps1 -Help
+```
+.\IPScanner.ps1 -StartIP <string> -EndIP <string> [-OutputFile <string>] [-Help]
+```
+
+
+Replace `<string>` with the desired IP address range and options.
+
+### Parameters
+
+The following parameters are available for this script:
+
+- `-StartIP`: The starting IP address to scan (e.g. 192.168.0) excluding 4th octet. **(required)**
+- `-EndIP`: The ending IP address to scan (e.g. 192.168.0.255). **(required)**
+- `-OutputFile`: Optional. The file to save the output to.
+- `-Help`: Display this help message.
+
+
+This example scans for live hosts between IP address 192.168.0.1 and 192.168.0.255 and saves the results to a file named "results.txt" in the "C:\temp" directory.
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+## Acknowledgments
+
+- This script was inspired by similar scripts found online.
+
+
 

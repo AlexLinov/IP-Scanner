@@ -1,9 +1,30 @@
+[CmdletBinding()]
 Param(
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false, HelpMessage="The starting IP address to scan (e.g. 192.168.0) excluding 4th octet")]
     [string]$StartIP,
-    [Parameter(Mandatory=$true)]
-    [string]$EndIP
+    [Parameter(Mandatory=$false, HelpMessage="The ending IP address to scan (e.g. 192.168.0.255)")]
+    [string]$EndIP,
+    [Parameter(Mandatory=$false, HelpMessage="Optional. The file to save the output to.")]
+    [string]$Outfile,
+    [Parameter(Mandatory=$false, HelpMessage="Display this help message.")]
+    [switch]$Help
 )
+
+if ($Help) {
+    Write-Host "Syntax: .\script.ps1 -StartIP <string> -EndIP <string> [-OutputFile <string>] [-Help]"
+    Write-Host ""
+    Write-Host "Options:"
+    Write-Host "-StartIP <string>        The starting IP address to scan (e.g. 192.168.0) excluding 4th octet"
+    Write-Host "-EndIP <string>          The ending IP address to scan (e.g. 192.168.0.255)"
+    Write-Host "-Outfile <string>    Optional. The file to save the output to."
+    Write-Host "-Help                    Display this help message."
+    exit
+}
+
+if (-not $StartIP -or -not $EndIP) {
+    Write-Host "Please provide a StartIP and EndIP to scan for live hosts or use -Help menu" -ForegroundColor Red
+    exit
+}
 
 Write-Host @'
  ______   ____        ____                                                    
@@ -21,7 +42,7 @@ Write-Host "Scanning for live hosts between $StartIP and $EndIP..." -ForegroundC
 
 $ips = 1..($EndIP -split "\.")[-1] | ForEach-Object { "$StartIP.$_" }
 
-foreach ($ip in $ips) {
+$results = foreach ($ip in $ips) {
     $hostname = $null
     try {
         $hostname = [System.Net.Dns]::GetHostEntry($ip).HostName
@@ -31,4 +52,8 @@ foreach ($ip in $ips) {
     if ($hostname) {
         Write-Output "$ip resolves to $hostname"
     }
+}
+
+if ($Outfile) {
+    $results | Out-File $Outfile
 }

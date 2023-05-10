@@ -43,6 +43,8 @@ Write-Host "Scanning for live hosts between $StartIP and $EndIP..." -ForegroundC
 $ips = 1..($EndIP -split "\.")[-1] | ForEach-Object { "$StartIP.$_" }
 
 $results = foreach ($ip in $ips) {
+    $count++
+    Write-Progress -Activity "Scanning IP addresses" -Status "Scanned $count out of $($ips.Count)"
     $hostname = $null
     try {
         $hostname = [System.Net.Dns]::GetHostEntry($ip).HostName
@@ -50,10 +52,14 @@ $results = foreach ($ip in $ips) {
     catch { }
 
     if ($hostname) {
-        Write-Output "$ip resolves to $hostname"
+        $output = "$ip resolves to $hostname"
+        Write-Host $output -ForegroundColor Yellow
+if ($Outfile) {
+            Add-Content -Path $Outfile -Value $output
+        }
     }
 }
 
 if ($Outfile) {
-    $results | Out-File $Outfile
+    Write-Host "Results saved to $Outfile" -ForegroundColor Green
 }

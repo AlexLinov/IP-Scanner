@@ -16,7 +16,7 @@ To use this script, follow these steps:
 3. Run the script using the following command:
 
 ```
-.\IPScanner.ps1 -StartIP <string> -EndIP <string> [-OutputFile <string>] [-Help]
+.\IPScanner.ps1 -StartIP <string> -EndIP <string> [-OutputFile <string>] [-Help] [-IPListFile file]
 ```
 
 
@@ -30,7 +30,7 @@ The following parameters are available for this script:
 - `-EndIP`: The ending IP address to scan (e.g. 192.168.0.255). **(required)**
 - `-OutputFile`: Optional. The file to save the output to.
 - `-Help`: Display this help message.
-
+- `-IPListFile`: Take a list of IPs from file.
 
 This example scans for live hosts between IP address 192.168.0.1 and 192.168.0.255 and saves the results to a file named "results.txt" in the "C:\temp" directory.
 
